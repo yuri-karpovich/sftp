@@ -1,9 +1,11 @@
+# THIS IS A FORK. PLEASE USE ORIGINAL DOCKER IMAGE https://github.com/atmoz/sftp
+
 # Supported tags and respective `Dockerfile` links
 
-- [`debian-jessie`, `debian`, `latest` (*Dockerfile*)](https://github.com/atmoz/sftp/blob/master/Dockerfile) [![](https://images.microbadger.com/badges/image/atmoz/sftp.svg)](http://microbadger.com/images/atmoz/sftp "Get your own image badge on microbadger.com")
-- [`alpine-3.6`, `alpine` (*Dockerfile*)](https://github.com/atmoz/sftp/blob/alpine/Dockerfile) [![](https://images.microbadger.com/badges/image/atmoz/sftp:alpine.svg)](http://microbadger.com/images/atmoz/sftp:alpine "Get your own image badge on microbadger.com")
-- [`alpine-3.5` (*Dockerfile*)](https://github.com/atmoz/sftp/blob/alpine-3.5/Dockerfile) [![](https://images.microbadger.com/badges/image/atmoz/sftp:alpine-3.5.svg)](http://microbadger.com/images/atmoz/sftp:alpine "Get your own image badge on microbadger.com")
-- [`alpine-3.4` (*Dockerfile*)](https://github.com/atmoz/sftp/blob/alpine-3.4/Dockerfile) [![](https://images.microbadger.com/badges/image/atmoz/sftp:alpine-3.4.svg)](http://microbadger.com/images/atmoz/sftp:alpine-3.4 "Get your own image badge on microbadger.com")
+- [`debian-jessie`, `debian`, `latest` (*Dockerfile*)](https://github.com/spoonest/sftp/blob/master/Dockerfile) [![](https://images.microbadger.com/badges/image/spoonest/sftp.svg)](http://microbadger.com/images/spoonest/sftp "Get your own image badge on microbadger.com")
+- [`alpine-3.6`, `alpine` (*Dockerfile*)](https://github.com/spoonest/sftp/blob/alpine/Dockerfile) [![](https://images.microbadger.com/badges/image/spoonest/sftp:alpine.svg)](http://microbadger.com/images/spoonest/sftp:alpine "Get your own image badge on microbadger.com")
+- [`alpine-3.5` (*Dockerfile*)](https://github.com/spoonest/sftp/blob/alpine-3.5/Dockerfile) [![](https://images.microbadger.com/badges/image/spoonest/sftp:alpine-3.5.svg)](http://microbadger.com/images/spoonest/sftp:alpine "Get your own image badge on microbadger.com")
+- [`alpine-3.4` (*Dockerfile*)](https://github.com/spoonest/sftp/blob/alpine-3.4/Dockerfile) [![](https://images.microbadger.com/badges/image/spoonest/sftp:alpine-3.4.svg)](http://microbadger.com/images/spoonest/sftp:alpine-3.4 "Get your own image badge on microbadger.com")
 
 # Securely share your files
 
@@ -32,7 +34,7 @@ This is an automated build linked with the [debian](https://hub.docker.com/_/deb
 ## Simplest docker run example
 
 ```
-docker run -p 22:22 -d atmoz/sftp foo:pass:::upload
+docker run -p 22:22 -d spoonest/sftp foo:pass:::upload
 ```
 
 User "foo" with password "pass" can login with sftp and upload files to a folder called "upload". No mounted directories or custom UID/GID. Later you can inspect the files and use `--volumes-from` to mount them somewhere else (or see next example).
@@ -46,7 +48,7 @@ docker run \
     -v /host/upload:/home/foo/upload \
     -v /host/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key \
     -v /host/ssh_host_rsa_key.pub:/etc/ssh/ssh_host_rsa_key.pub \
-    -p 2222:22 -d atmoz/sftp \
+    -p 2222:22 -d spoonest/sftp \
     foo:pass:1001
 ```
 
@@ -54,7 +56,7 @@ docker run \
 
 ```
 sftp:
-    image: atmoz/sftp
+    image: spoonest/sftp
     volumes:
         - /host/upload:/home/foo/upload
         - /host/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key
@@ -78,7 +80,7 @@ docker run \
     -v mySftpVolume:/home \
     -v /host/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key \
     -v /host/ssh_host_rsa_key.pub:/etc/ssh/ssh_host_rsa_key.pub \
-    -p 2222:22 -d atmoz/sftp
+    -p 2222:22 -d spoonest/sftp
 ```
 
 /host/users.conf:
@@ -96,12 +98,12 @@ Add `:e` behind password to mark it as encrypted. Use single quotes if using ter
 ```
 docker run \
     -v /host/share:/home/foo/share \
-    -p 2222:22 -d atmoz/sftp \
+    -p 2222:22 -d spoonest/sftp \
     'foo:$1$0G2g0GSt$ewU0t6GXG15.0hWoOX8X9.:e:1001'
 ```
 
-Tip: you can use [atmoz/makepasswd](https://hub.docker.com/r/atmoz/makepasswd/) to generate encrypted passwords:  
-`echo -n "your-password" | docker run -i --rm atmoz/makepasswd --crypt-md5 --clearfrom=-`
+Tip: you can use [spoonest/makepasswd](https://hub.docker.com/r/spoonest/makepasswd/) to generate encrypted passwords:  
+`echo -n "your-password" | docker run -i --rm spoonest/makepasswd --crypt-md5 --clearfrom=-`
 
 ## Logging in with SSH keys
 
@@ -116,7 +118,7 @@ docker run \
     -v /host/id_rsa.pub:/home/foo/.ssh/keys/id_rsa.pub:ro \
     -v /host/id_other.pub:/home/foo/.ssh/keys/id_other.pub:ro \
     -v /host/share:/home/foo/share \
-    -p 2222:22 -d atmoz/sftp \
+    -p 2222:22 -d spoonest/sftp \
     foo::1001
 ```
 
@@ -131,7 +133,7 @@ docker run \
     -v /host/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key \
     -v /host/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key \
     -v /host/share:/home/foo/share \
-    -p 2222:22 -d atmoz/sftp \
+    -p 2222:22 -d spoonest/sftp \
     foo::1001
 ```
 
